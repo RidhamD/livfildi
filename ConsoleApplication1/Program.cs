@@ -6,37 +6,41 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Введите длину стороны треугольника: ");
-            int sideLength;
-            bool checkInput =  int.TryParse(Console.ReadLine(), out sideLength);
-            while (checkInput == false)
+            int sideLength;            
+            do
             {
-                Console.WriteLine("Вы ввели неверное значение! Введите пожалуйста число!");
-                checkInput = int.TryParse(Console.ReadLine(), out sideLength);
-            }
+                Console.Write("Введите длину стороны треугольника: ");
+                if (int.TryParse(Console.ReadLine(), out sideLength))
+                    break;
 
-            Console.WriteLine("Введите длину высоты проведенной к этой стороне: ");
-            int height;
-            checkInput = int.TryParse(Console.ReadLine(), out height);
-            while (checkInput == false)
-            {
                 Console.WriteLine("Вы ввели неверное значение! Введите пожалуйста число!");
-                checkInput = int.TryParse(Console.ReadLine(), out height);
+                
             }
-                      
-            float area = calculateTriangleArea(sideLength, height);
+            while (true);
+                        
+            int height;
+            do
+            {
+                Console.Write("Введите длину высоты проведенной к этой стороне: ");
+                if (int.TryParse(Console.ReadLine(), out height))
+                    break;
+
+                Console.WriteLine("Вы ввели неверное значение! Введите пожалуйста число!");
+            }
+            while (true);
+
+            float area = CalculateTriangleArea(sideLength, height);
             Console.WriteLine("Площадь треугольника со стороной '{0}' и высотой '{1}', равняется '{2}'", sideLength, height, area);
-            Console.ReadKey();
+            Console.Read();
         }
 
-          static float calculateTriangleArea(int sideLength, int height)
-        {
-             float s;
-             return s = 0.5f*sideLength * height;        
+        private static float CalculateTriangleArea(int sideLength, int height)
+        {             
+             return 0.5f * sideLength * height;        
         }
     }
 }

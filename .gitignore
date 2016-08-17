@@ -1,0 +1,11 @@
+# Folders #
+###
+
+ConsoleApplication1/bin/
+ConsoleApplication1/obj/
+
+
+# Compiled files #
+###
+
+*.suo
