@@ -10,23 +10,33 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            int a;
-            int h;
-           
             Console.WriteLine("Введите длину стороны треугольника: ");
-            a = int.Parse(Console.ReadLine());
+            int sideLength;
+            bool checkInput =  int.TryParse(Console.ReadLine(), out sideLength);
+            while (checkInput == false)
+            {
+                Console.WriteLine("Вы ввели неверное значение! Введите пожалуйста число!");
+                checkInput = int.TryParse(Console.ReadLine(), out sideLength);
+            }
+
             Console.WriteLine("Введите длину высоты проведенной к этой стороне: ");
-            h = int.Parse(Console.ReadLine());
-            Area(a, h);         
-            
+            int height;
+            checkInput = int.TryParse(Console.ReadLine(), out height);
+            while (checkInput == false)
+            {
+                Console.WriteLine("Вы ввели неверное значение! Введите пожалуйста число!");
+                checkInput = int.TryParse(Console.ReadLine(), out height);
+            }
+                      
+            float area = calculateTriangleArea(sideLength, height);
+            Console.WriteLine("Площадь треугольника со стороной '{0}' и высотой '{1}', равняется '{2}'", sideLength, height, area);
             Console.ReadKey();
         }
 
-          static void Area(float a, float h)
+          static float calculateTriangleArea(int sideLength, int height)
         {
              float s;
-             s = 0.5f*a * h;
-             Console.WriteLine(s);
+             return s = 0.5f*sideLength * height;        
         }
     }
 }
