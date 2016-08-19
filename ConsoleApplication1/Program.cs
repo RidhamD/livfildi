@@ -12,12 +12,13 @@ namespace ConsoleApplication1
         public static void Main(string[] args)
         {
             Console.WriteLine("Выберите необходимую фигуру: \n 1 - Треугольник \n 2 - Четырехугольник \n 3 - Квадрат \n 4 - Выход ");
-            GeneralMenu(InputInt());
+            int shapeId = ReadNumberInt(); 
+            GeneralMenu(shapeId);
             Console.Read();
 
         }
 
-        public static int InputInt()
+        public static int ReadNumberInt()
         {
             int value;
              do
@@ -30,7 +31,7 @@ namespace ConsoleApplication1
             while (true);
             return value;
         }
-        public static double InputDouble()
+        public static double ReadNumberDouble()
         {
             double value;
             do
@@ -50,24 +51,27 @@ namespace ConsoleApplication1
             {
                 case 1:
                     Console.WriteLine("Выберите формулу: \n 1 - Формула площади треугольника по стороне и высоте \n 2 - Формула площади треугольника по двум сторонам и углу между ними \n 3 - Назад");
-                    TriangleMenu(InputInt());
+                    int formulaId = ReadNumberInt();
+                    TriangleMenu(formulaId);
                     break;
                 case 2:
                     Console.WriteLine("Выберите формулу: \n 1 - Формула половины произведения диагоналей и синуса острого угла между ними \n 2 - Формула Брахмагупты \n 3 - Назад");
-                    QuadrangleMenu(InputInt());
+                    formulaId = ReadNumberInt();
+                    QuadrangleMenu(formulaId);
                     break;
                 case 3:
                     Console.Write("Введите длину стороны квадрата: ");
-                    int side = InputInt();
+                    int side =ReadNumberInt();
                     double area = CalculateArea.Square(side);
                     Console.WriteLine("Площадь квадрата со стороной '{0}', равняется '{1}'", side,area);
-                    AnotherFigure();
+                    ChangePolygon();
                     break;
                 case 4:
                     break;
                 default:
                     Console.WriteLine("Такого пункта меню нет, повторите ввод!");
-                    GeneralMenu(InputInt());
+                    int shapeId = ReadNumberInt();
+                    GeneralMenu(shapeId);
                     break;
             }
         }
@@ -78,31 +82,33 @@ namespace ConsoleApplication1
             {
                 case 1:
                     Console.Write("Введите длину стороны треугольника: ");
-                    int sideOne = InputInt();
+                    int sideOne = ReadNumberInt();
                     Console.Write("Введите длину высоты проведенной к этой стороне: ");
-                    int height = InputInt();
+                    int height = ReadNumberInt();
                     double area = CalculateArea.Triangle(sideOne, height);
                     Console.WriteLine("Площадь треугольника со стороной '{0}' и высотой '{1}', равняется '{2:0.00}'", sideOne, height, area);
-                    AnotherFigure();
+                    ChangePolygon();
                     break;
                 case 2:
                     Console.Write("Введите длину первой стороны треугольника: ");
-                    sideOne = InputInt();
+                    sideOne = ReadNumberInt();
                     Console.Write("Введите длину второй стороны треугольника: ");
-                    int sideTwo = InputInt();
+                    int sideTwo = ReadNumberInt();
                     Console.Write("Введите угол между сторонами: ");
-                    double angle = InputDouble();
+                    double angle = ReadNumberDouble();
                     area = CalculateArea.Triangle(sideOne, sideTwo, angle);
                     Console.WriteLine("Площадь треугольника с первой стороной '{0}', со второй стороной '{1}' и углом '{2}' равняется '{3:0.00}'", sideOne, sideTwo, angle, area);
-                    AnotherFigure();
+                    ChangePolygon();
                     break;
                 case 3:
                     Console.WriteLine("Выберите необходимую фигуру: \n 1 - Треугольник \n 2 - Четырехугольник \n 3 - Квадрат \n 4 - Круг");
-                    GeneralMenu(InputInt());
+                    int shapeId = ReadNumberInt();
+                    GeneralMenu(shapeId);
                     break;
                 default:
                     Console.WriteLine("Такого пункта меню нет, повторите ввод!");
-                    TriangleMenu(InputInt());
+                    shapeId = ReadNumberInt();
+                    GeneralMenu(shapeId);
                     break;
             }
         }
@@ -112,44 +118,54 @@ namespace ConsoleApplication1
             {
                 case 1:
                     Console.Write("Введите первую диагональ: ");
-                    int diagonalOne  = InputInt();
+                    int diagonalOne  = ReadNumberInt();
                     Console.Write("Введите вторуб диагональ: ");
-                    int diagonalTwo = InputInt();
+                    int diagonalTwo = ReadNumberInt();
                     Console.Write("Введите угол между диагоналями: ");
-                    double angle = InputDouble();
+                    double angle = ReadNumberInt();
                     double area = CalculateArea.Quadrangle(diagonalOne, diagonalTwo, angle);
                     Console.WriteLine("Площадь четырехугольника с диагоналями '{0}' и '{1}', и углом '{2}' равняется '{3:0.00}'", diagonalOne, diagonalTwo, angle, area);
-                    AnotherFigure();
+                    ChangePolygon();
                     break;
                 case 2:
-                    Console.WriteLine("Введите длину всех сторон(через enter):");
-                    int sideLengthA = InputInt();
-                    int sideLengthB = InputInt();
-                    int sideLengthC = InputInt();
-                    int sideLengthD = InputInt();
-                    area = CalculateArea.Quadrangle(sideLengthA, sideLengthB, sideLengthC, sideLengthD);
-                    Console.WriteLine("Площадь четырехугольника со сторонами '{0}','{1}', '{2}', '{3}', равняется '{4:0.00}'", sideLengthA, sideLengthB, sideLengthC, sideLengthD, area);
-                    AnotherFigure();
+                    Console.WriteLine("Введите длину всех сторон(через пробел):");
+                    string quadrangleSides = Console.ReadLine();
+                    Char separation = ' ';
+                    int[] sides = new int[4];
+                    String[] quadrangleSide = quadrangleSides.Split(separation);
+                    int i = 0;
+                    foreach (string side in quadrangleSide)
+                    {
+                        sides[i] = Convert.ToInt32(side);
+                        i++;
+                    }
+                   
+                    area = CalculateArea.Quadrangle(sides[0], sides[1], sides[2], sides[3]);
+                    Console.WriteLine("Площадь четырехугольника со сторонами '{0}','{1}', '{2}', '{3}', равняется '{4:0.00}'", sides[0], sides[1], sides[2], sides[3], area);
+                    ChangePolygon();
                     break;
                 case 3:
                     Console.WriteLine("Выберите необходимую фигуру: \n 1 - Треугольник \n 2 - Четырехугольник \n 3 - Квадрат \n 4 - Круг");
-                    GeneralMenu(InputInt());
+                    int shapeId = ReadNumberInt();
+                    GeneralMenu(shapeId);
                     break;
                 default:
                     Console.WriteLine("Такого пункта меню нет, повторите ввод!");
-                    QuadrangleMenu(InputInt());
+                    shapeId = ReadNumberInt();
+                    GeneralMenu(shapeId);
                     break;
             }
         }
-        public static void AnotherFigure()
+        public static void ChangePolygon()
             {
             Console.Write("Вы хотите найти площадь другой фигугры(да/нет)?");
                     string answer = Console.ReadLine();
                     if (answer.Contains("да"))
                     {
                         Console.WriteLine("Выберите необходимую фигуру: \n 1 - Треугольник \n 2 - Четырехугольник \n 3 - Квадрат \n 4 - Выход ");
-                        GeneralMenu(InputInt());
-                    }
+                        int shapeId = ReadNumberInt();
+                        GeneralMenu(shapeId);
+            }
 }
 
 
